@@ -11,7 +11,6 @@ export const fetchPosts = () => async (dispatch) => {
 
 export const fetchComments = (postId) => async (dispatch) => {
     let commentResponse = await jsonplaceholder.get(`/comments?postId=${postId}`);
-
     dispatch({
         type: 'FETCH_COMMENTS',
         payload: commentResponse.data

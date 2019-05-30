@@ -3,38 +3,35 @@ import { connect } from 'react-redux';
 import { fetchComments } from '../actions';
 
 class ListComment extends React.Component{
-
-    constructor(props) {
-        super(props);
-        this.listCommentRef = React.createRef();
-    }
     
     handleOnClick = (e) => {
         this.props.fetchComments(this.props.postId);
     }
 
     renderCommentList() {
-        if (!this.props.comments) {
+        let { comments } = this.props
+        if (!comments || comments.length <= 0){
             return null;
         }
         return (
-            this.props.comments.map(comment => {
+            this.props.comments[0].map(comment => { return comment}).map(comment => {
                 return (
-                    <div>{comment.body}</div>
+                    <li key={comment.id}>
+                        {comment.body}
+                    </li>
                 )
             })
         );
     }
 
-    componentDidUpdate(){
-        console.log("Component Update!");
-    }
-
     render() {
+        console.log("Post ID: "+this.props.postId);
         return (
-            <div ref={this.props.comments}>
+            <div>
                 <a href="#" onClick={this.handleOnClick}>(View More Comments)</a>
-                {this.renderCommentList()}
+                <ul className="list-group">
+                    {this.renderCommentList()}
+                </ul>
             </div>
         );
     }
@@ -42,7 +39,7 @@ class ListComment extends React.Component{
 
 const mapStateToProps = (state) => {    
     return {
-        comments: state.listComment
+        comments: state.comments
     };  
 };
 
